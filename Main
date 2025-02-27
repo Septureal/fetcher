@@ -10,8 +10,8 @@ local importantUi = {
 	["ImageButton"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Image","ImageContent","ImageColor3","ImageRectOffset","ImageRectSize","ImageTransparency","ScaleType","HoverImage","PressedImage","ScaleType",},
 	["ViewportFrame"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","CurrentCamera","LightColor","LightDirection",},
 	["UIGradient"] = {"Color","Enabled"},
-	["UIListLayout"] = {"CellPadding","CellSize","FillDirectionMaxCell","StartCorner","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
-	["UIListPadding"] = {"HorizontalFlex","ItemLineAlignment","Padding","VerticalFlex", "Wraps","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
+	["UIGridLayout"] = {"CellPadding","CellSize","FillDirectionMaxCell","StartCorner","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
+	["UIListLayout"] = {"HorizontalFlex","ItemLineAlignment","Padding","VerticalFlex", "Wraps","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
 	["UIStroke"] = {"ApplyStrokeMode","Enabled","Thickness","Transparency","Color"},
 }
 
