@@ -16,7 +16,7 @@ local importantUi = {
 	["UIStroke"] = {"ApplyStrokeMode","Enabled","Thickness","Transparency","Color"},
 }
 
-local target = game.Players.LocalPlayer.PlayerGui
+local target = game.Players.LocalPlayer.PlayerGui.ScreenGui
 local result = {}
 
 local encryptFunctions = {
