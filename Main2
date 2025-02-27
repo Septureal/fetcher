@@ -1,0 +1,98 @@
+--V 1.0.1
+local http = game:GetService("HttpService")
+local rs = game:GetService("RunService")
+local importantUi = {
+	["ScreenGui"] = {"DisplayOrder",},
+	["Frame"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex"},
+	["TextLabel"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace",},
+	["TextButton"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace","AutoButtonColor","Modal","Style",},
+	["TextBox"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace","PlaceholderText","PlaceholderColor3","PlaceholderText",},
+	["ImageLabel"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Image","ImageContent","ImageColor3","ImageRectOffset","ImageRectSize","ImageTransparency","ScaleType",},
+	["ImageButton"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Image","ImageContent","ImageColor3","ImageRectOffset","ImageRectSize","ImageTransparency","ScaleType","HoverImage","PressedImage","ScaleType",},
+	["ViewportFrame"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","CurrentCamera","LightColor","LightDirection",},
+	["UIGradient"] = {"Color","Enabled"},
+	["UIGridLayout"] = {"CellPadding","CellSize","FillDirectionMaxCells","StartCorner","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
+	["UIListLayout"] = {"HorizontalFlex","ItemLineAlignment","Padding","VerticalFlex", "Wraps","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
+	["UIStroke"] = {"ApplyStrokeMode","Enabled","Thickness","Transparency","Color"},
+}
+
+local target = game.Players.LocalPlayer.PlayerGui
+local result = {}
+
+local encryptFunctions = {
+	[typeof(UDim2.new(1,0,1,0))] = function(udim:UDim2)
+		local xScale = udim.X.Scale
+		local xPix = udim.X.Offset
+		local yScale = udim.Y.Scale
+		local yPix = udim.Y.Offset
+
+		return {[1] = xScale , [2] =xPix, [3] = yScale, [4] = yPix}
+	end,
+	[typeof(Enum.EasingStyle.Exponential)] = function(enum:Enum)
+		local stringed = tostring(enum)
+		local splitted = string.split(stringed, ".")
+		return splitted
+	end,
+	[typeof(Vector2.new(1,1))] = function(vector:Vector2)
+		return {[1] = vector.X , [2] = vector.Y}
+	end,
+	[typeof(Color3.fromRGB(255,255,255))] = function(color:Color3)
+		return {[1] = color:ToHex()}
+	end,
+}
+
+local function shouldConvert(data)
+	return encryptFunctions[typeof(data)] or false
+end
+
+local function convertData(data)
+	local returned = encryptFunctions[typeof(data)](data)
+	if returned then
+		print(returned)
+		return {dataType = typeof(data) , content = returned}
+	end
+	return nil
+end
+
+
+local function convertToCode(ins)
+	local dataTable = {
+		class = ins.ClassName,
+		Name = ins.Name,
+	}
+	if importantUi[ins.ClassName] then
+		for i , att in pairs(importantUi[ins.ClassName]) do
+			local val = ins[att]
+			if shouldConvert(ins[att]) then
+				val = convertData(ins[att])
+				warn(val)
+			end
+			dataTable[att] = val
+		end
+	end
+	local childrenList = {}
+	if #ins:GetChildren() > 0 then
+		for i , item in pairs(ins:GetChildren()) do
+			local returned = convertToCode(item)
+			table.insert(childrenList, returned)
+		end
+	end
+	dataTable.children = childrenList
+	return dataTable
+end
+
+local json = http:JSONEncode(convertToCode(target))
+print(json)
+
+local display = Instance.new("ScreenGui" , game.Players.LocalPlayer.PlayerGui)
+display.DisplayOrder = math.huge
+local frame = Instance.new("TextBox" , display)
+frame.Size = UDim2.new(1,0,1,0)
+frame.MultiLine = true
+frame.TextWrapped = true
+
+rs.Heartbeat:Connect(function()
+	if frame.Text ~= json then
+		frame.Text = json
+	end
+end)
