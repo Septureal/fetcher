@@ -1,0 +1,166 @@
+--V 1.0.1
+local http = game:GetService("HttpService")
+local rs = game:GetService("RunService")
+local importantUi = {
+	["ScreenGui"] = {"DisplayOrder",},
+	["Frame"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex"},
+	["TextLabel"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace",},
+	["TextButton"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace","AutoButtonColor","Modal","Style",},
+	["TextBox"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace","PlaceholderText","PlaceholderColor3","PlaceholderText",},
+	["ImageLabel"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Image","ImageContent","ImageColor3","ImageRectOffset","ImageRectSize","ImageTransparency","ScaleType",},
+	["ImageButton"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Image","ImageContent","ImageColor3","ImageRectOffset","ImageRectSize","ImageTransparency","ScaleType","HoverImage","PressedImage","ScaleType",},
+	["ViewportFrame"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","CurrentCamera","LightColor","LightDirection",},
+	["UIGradient"] = {"Color","Enabled"},
+	["UIGridLayout"] = {"CellPadding","CellSize","FillDirectionMaxCells","StartCorner","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
+	["UIListLayout"] = {"HorizontalFlex","ItemLineAlignment","Padding","VerticalFlex", "Wraps","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
+	["UIStroke"] = {"ApplyStrokeMode","Enabled","Thickness","Transparency","Color"},
+}
+
+local compressionKey = {
+	["AnchorPoint"] = "1",
+	["AutomaticSize"] = "2",
+	["BackgroundColor3"] = "3",
+	["BackgroundTransparency"] = "4",
+	["ClipsDescendants"] = "5",
+	["Interactable"] = "6",
+	["LayoutOrder"] = "7",
+	["Position"] = "8",
+	["Rotation"] = "9",
+	["Size"] = "10",
+	["SizeConstraint"] = "11",
+	["Transparency"] = "12",
+	["Visible"] = "13",
+	["ZIndex"] = "14",
+	["CurrentCamera"] = "15",
+	["LightColor"] = "16",
+	["LightDirection"] = "17",
+	["ApplyStrokeMode"] = "18",
+	["Enabled"] = "19",
+	["Thickness"] = "20",
+	["Color"] = "21",
+	["HorizontalFlex"] = "22",
+	["ItemLineAlignment"] = "23",
+	["Padding"] = "24",
+	["VerticalFlex"] = "25",
+	["Wraps"] = "26",
+	["FillDirection"] = "27",
+	["HorizontalAlignment"] = "28",
+	["SortOrder"] = "29",
+	["VerticalAlignment"] = "30",
+	["Image"] = "31",
+	["ImageContent"] = "32",
+	["ImageColor3"] = "33",
+	["ImageRectOffset"] = "34",
+	["ImageRectSize"] = "35",
+	["ImageTransparency"] = "36",
+	["ScaleType"] = "37",
+	["HoverImage"] = "38",
+	["PressedImage"] = "39",
+	["CellPadding"] = "40",
+	["CellSize"] = "41",
+	["FillDirectionMaxCells"] = "42",
+	["StartCorner"] = "43",
+	["DisplayOrder"] = "44",
+	["Text"] = "45",
+	["TextColor3"] = "46",
+	["TextTransparency"] = "47",
+	["Font"] = "48",
+	["FontSize"] = "49",
+	["RichText"] = "50",
+	["TextScaled"] = "51",
+	["TextWrapped"] = "52",
+	["TextTruncate"] = "53",
+	["FontFace"] = "54",
+	["AutoButtonColor"] = "55",
+	["Modal"] = "56",
+	["Style"] = "57",
+	["PlaceholderText"] = "58",
+	["PlaceholderColor3"] = "59",
+	
+}
+
+local defaults = {}
+for class, info in pairs(importantUi) do
+	defaults[class] = Instance.new(class)
+end
+
+local target = game.Players.LocalPlayer.PlayerGui.PAGES.UnitPage
+local result = {}
+
+local encryptFunctions = {
+	[typeof(UDim2.new(1,0,1,0))] = function(udim:UDim2)
+		local xScale = udim.X.Scale
+		local xPix = udim.X.Offset
+		local yScale = udim.Y.Scale
+		local yPix = udim.Y.Offset
+
+		return {[1] = xScale , [2] =xPix, [3] = yScale, [4] = yPix}
+	end,
+	[typeof(Enum.EasingStyle.Exponential)] = function(enum:Enum)
+		local stringed = tostring(enum)
+		local splitted = string.split(stringed, ".")
+		return splitted
+	end,
+	[typeof(Vector2.new(1,1))] = function(vector:Vector2)
+		return {[1] = vector.X , [2] = vector.Y}
+	end,
+	[typeof(Color3.fromRGB(255,255,255))] = function(color:Color3)
+		return {[1] = color:ToHex()}
+	end,
+}
+
+local function shouldConvert(data)
+	return encryptFunctions[typeof(data)] or false
+end
+
+local function convertData(data)
+	local returned = encryptFunctions[typeof(data)](data)
+	if returned then
+		print(returned)
+		return {dataType = typeof(data) , content = returned}
+	end
+	return nil
+end
+
+
+local function convertToCode(ins)
+	local dataTable = {
+		class = ins.ClassName,
+		Name = ins.Name,
+	}
+	if importantUi[ins.ClassName] then
+		for i , att in pairs(importantUi[ins.ClassName]) do
+			local val = ins[att]
+			if val ~= defaults[ins.ClassName][att] then
+				if shouldConvert(ins[att]) then
+					val = convertData(ins[att])
+					warn(val)
+				end
+				dataTable[compressionKey[att]] = val
+			end
+		end
+	end
+	local childrenList = {}
+	if #ins:GetChildren() > 0 then
+		for i , item in pairs(ins:GetChildren()) do
+			local returned = convertToCode(item)
+			table.insert(childrenList, returned)
+		end
+	end
+	dataTable.children = childrenList
+	return dataTable
+end
+
+local json = http:JSONEncode(convertToCode(target))
+print(json)
+
+local display = Instance.new("ScreenGui" , game.Players.LocalPlayer.PlayerGui)
+display.DisplayOrder = math.huge
+local frame = Instance.new("TextBox" , display)
+frame.Size = UDim2.new(1,0,1,0)
+frame.MultiLine = true
+frame.TextWrapped = false
+frame.TextTruncate = Enum.TextTruncate.None
+frame.TextEditable = false
+frame.ClearTextOnFocus = false
+frame.Text = json
