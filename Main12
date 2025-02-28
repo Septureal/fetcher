@@ -14,6 +14,7 @@ local importantUi = {
 	["UIGridLayout"] = {"CellPadding","CellSize","FillDirectionMaxCells","StartCorner","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
 	["UIListLayout"] = {"HorizontalFlex","ItemLineAlignment","Padding","VerticalFlex", "Wraps","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
 	["UIStroke"] = {"ApplyStrokeMode","Enabled","Thickness","Transparency","Color"},
+	["UIAspectRatioConstraint"] = {"AspectRatio","AspectType","DominantAxis"},
 }
 
 local defaults = {}
@@ -43,6 +44,14 @@ local encryptFunctions = {
 	end,
 	[typeof(Color3.fromRGB(255,255,255))] = function(color:Color3)
 		return {[1] = color:ToHex()}
+	end,
+	[typeof(ColorSequence.new({}))] = function(color:ColorSequence)
+		local returns = {}
+		for i , item in pairs(color.Keypoints) do
+			returns[i] = {color = item.Value , time = item.Time}
+		end
+		returns = http:JSONEncode(returns)
+		return {[1] = returns}
 	end,
 }
 
