@@ -23,7 +23,7 @@ for class, info in pairs(importantUi) do
 	defaults[class] = Instance.new(class)
 end
 
-local target = game.Players.LocalPlayer.PlayerGui.PAGES.UnitPage
+local target = game.Players.LocalPlayer.PlayerGui.PAGES.QuestPage
 local result = {}
 
 local encryptFunctions = {
