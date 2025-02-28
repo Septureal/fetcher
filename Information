@@ -1,0 +1,17 @@
+This fetcher code is used to test the limit of roblox studio regarding JSON Encoding/Decoding, maximum table memory. Mainly used for evaluating datastores limit. 
+Whilst it would be more simple to make a testing script for this objective, I saw it more suitable to make a functional tool.
+
+Versions
+
+V1.0.12 - Public Release
+- Supports UI Style layouts
+- String splitting to avoid character limit
+- Ignores default attribute to reduce string size
+Script: loadstring(game:HttpGet("https://raw.githubusercontent.com/Septureal/fetcher/refs/heads/main/Main12"))()
+
+V2.0.0 - Script Change
+- Supports Local Script
+- Increase letters per split (10,000 -> 16,000)
+- Supports UI Gradient
+
+Script: loadstring(game:HttpGet("https://raw.githubusercontent.com/Septureal/fetcher/refs/heads/main/Version%202.0.0%20Release"))()
