@@ -45,7 +45,7 @@ local encryptFunctions = {
 	[typeof(Color3.fromRGB(255,255,255))] = function(color:Color3)
 		return {[1] = color:ToHex()}
 	end,
-	[typeof(ColorSequence.new({}))] = function(color:ColorSequence)
+	[typeof(ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.fromRGB(0,0,0)),ColorSequenceKeypoint.new(1,Color3.fromRGB(0,0,0))}))] = function(color:ColorSequence)
 		local returns = {}
 		for i , item in pairs(color.Keypoints) do
 			returns[i] = {color = item.Value , time = item.Time}
