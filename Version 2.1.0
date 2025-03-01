@@ -3,81 +3,22 @@ local http = game:GetService("HttpService")
 local rs = game:GetService("RunService")
 local importantUi = {
 	["ScreenGui"] = {"DisplayOrder",},
-	["Frame"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex"},
-	["TextLabel"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace",},
-	["TextButton"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace","AutoButtonColor","Modal","Style",},
-	["TextBox"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace","PlaceholderText","PlaceholderColor3","PlaceholderText",},
-	["ImageLabel"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Image","ImageContent","ImageColor3","ImageRectOffset","ImageRectSize","ImageTransparency","ScaleType","SliceCentre","SliceScale"},
-	["ImageButton"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Image","ImageContent","ImageColor3","ImageRectOffset","ImageRectSize","ImageTransparency","ScaleType","HoverImage","PressedImage","ScaleType","SliceCentre","SliceScale"},
-	["ViewportFrame"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","CurrentCamera","LightColor","LightDirection",},
+	["Frame"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex"},
+	["TextLabel"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace","TextXAlignment","TextYAlignment"},
+	["TextButton"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace","AutoButtonColor","Modal","Style","TextXAlignment","TextYAlignment"},
+	["TextBox"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Text","TextColor3","TextTransparency","Font","FontSize","RichText","TextScaled","TextWrapped","TextTruncate","FontFace","PlaceholderText","PlaceholderColor3","PlaceholderText","TextXAlignment","TextYAlignment"},
+	["ImageLabel"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Image","ImageContent","ImageColor3","ImageRectOffset","ImageRectSize","ImageTransparency","ScaleType",},
+	["ImageButton"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","Image","ImageContent","ImageColor3","ImageRectOffset","ImageRectSize","ImageTransparency","ScaleType","HoverImage","PressedImage","ScaleType",},
+	["ViewportFrame"] = {"BackgroundTransparency","AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex","CurrentCamera","LightColor","LightDirection",},
 	["UIGradient"] = {"Color","Enabled"},
 	["UIGridLayout"] = {"CellPadding","CellSize","FillDirectionMaxCells","StartCorner","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
 	["UIListLayout"] = {"HorizontalFlex","ItemLineAlignment","Padding","VerticalFlex", "Wraps","FillDirection","HorizontalAlignment","SortOrder","VerticalAlignment",},
 	["UIStroke"] = {"ApplyStrokeMode","Enabled","Thickness","Transparency","Color"},
+	["UIAspectRatioConstraint"] = {"AspectRatio","AspectType","DominantAxis"},
+	["LocalScript"] = {"Enabled" , "Source"},
+	["Script"] = {"Enabled" , "Source"},
+	["ModuleScript"] = {"Enabled" , "Source"},
 	["ScrollingFrame"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex", "AutomaticCanvasSize", "CanvasSize","BottomImage","MidImage","TopImage", "ScrollBarImageColor3" , "ScrollBarImageTransparency","ScrollBarThickness"},
-}
-
-local compressionKey = {
-	["AnchorPoint"] = "1",
-	["AutomaticSize"] = "2",
-	["BackgroundColor3"] = "3",
-	["BackgroundTransparency"] = "4",
-	["ClipsDescendants"] = "5",
-	["Interactable"] = "6",
-	["LayoutOrder"] = "7",
-	["Position"] = "8",
-	["Rotation"] = "9",
-	["Size"] = "10",
-	["SizeConstraint"] = "11",
-	["Transparency"] = "12",
-	["Visible"] = "13",
-	["ZIndex"] = "14",
-	["CurrentCamera"] = "15",
-	["LightColor"] = "16",
-	["LightDirection"] = "17",
-	["ApplyStrokeMode"] = "18",
-	["Enabled"] = "19",
-	["Thickness"] = "20",
-	["Color"] = "21",
-	["HorizontalFlex"] = "22",
-	["ItemLineAlignment"] = "23",
-	["Padding"] = "24",
-	["VerticalFlex"] = "25",
-	["Wraps"] = "26",
-	["FillDirection"] = "27",
-	["HorizontalAlignment"] = "28",
-	["SortOrder"] = "29",
-	["VerticalAlignment"] = "30",
-	["Image"] = "31",
-	["ImageContent"] = "32",
-	["ImageColor3"] = "33",
-	["ImageRectOffset"] = "34",
-	["ImageRectSize"] = "35",
-	["ImageTransparency"] = "36",
-	["ScaleType"] = "37",
-	["HoverImage"] = "38",
-	["PressedImage"] = "39",
-	["CellPadding"] = "40",
-	["CellSize"] = "41",
-	["FillDirectionMaxCells"] = "42",
-	["StartCorner"] = "43",
-	["DisplayOrder"] = "44",
-	["Text"] = "45",
-	["TextColor3"] = "46",
-	["TextTransparency"] = "47",
-	["Font"] = "48",
-	["FontSize"] = "49",
-	["RichText"] = "50",
-	["TextScaled"] = "51",
-	["TextWrapped"] = "52",
-	["TextTruncate"] = "53",
-	["FontFace"] = "54",
-	["AutoButtonColor"] = "55",
-	["Modal"] = "56",
-	["Style"] = "57",
-	["PlaceholderText"] = "58",
-	["PlaceholderColor3"] = "59",
-	
 }
 
 local defaults = {}
@@ -108,6 +49,15 @@ local encryptFunctions = {
 	[typeof(Color3.fromRGB(255,255,255))] = function(color:Color3)
 		return {[1] = color:ToHex()}
 	end,
+	[typeof(ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.fromRGB(0,0,0)),ColorSequenceKeypoint.new(1,Color3.fromRGB(0,0,0))}))] = function(color:ColorSequence)
+		local returns = {}
+		for i , item in pairs(color.Keypoints) do
+			print(item.Value:ToHex())
+			returns[i] = {color = item.Value:ToHex() , time = item.Time}
+		end
+		returns = http:JSONEncode(returns)
+		return {[1] = returns}
+	end,
 }
 
 local function shouldConvert(data)
@@ -117,7 +67,6 @@ end
 local function convertData(data)
 	local returned = encryptFunctions[typeof(data)](data)
 	if returned then
-		print(returned)
 		return {dataType = typeof(data) , content = returned}
 	end
 	return nil
@@ -132,12 +81,11 @@ local function convertToCode(ins)
 	if importantUi[ins.ClassName] then
 		for i , att in pairs(importantUi[ins.ClassName]) do
 			local val = ins[att]
-			if val ~= defaults[ins.ClassName][att] then
+			if val and val ~= defaults[ins.ClassName][att] then
 				if shouldConvert(ins[att]) then
 					val = convertData(ins[att])
-					warn(val)
 				end
-				dataTable[compressionKey[att]] = val
+				dataTable[att] = val
 			end
 		end
 	end
@@ -155,13 +103,31 @@ end
 local json = http:JSONEncode(convertToCode(target))
 print(json)
 
+local segments = {}
+for i = 1, math.ceil(string.len(json)/16000) do
+	segments[i] = string.sub(json, (i-1)*16000 + 1 , 16000 * i)
+end
+
 local display = Instance.new("ScreenGui" , game.Players.LocalPlayer.PlayerGui)
 display.DisplayOrder = math.huge
 local frame = Instance.new("TextBox" , display)
-frame.Size = UDim2.new(1,0,1,0)
+frame.Size = UDim2.new(1,0,.8,0)
 frame.MultiLine = true
 frame.TextWrapped = false
 frame.TextTruncate = Enum.TextTruncate.None
 frame.TextEditable = false
 frame.ClearTextOnFocus = false
-frame.Text = json
+frame.Text = segments[1]
+
+local pageNumber = Instance.new("TextLabel" , display)
+pageNumber.Size = UDim2.new(1,0,.2,0)
+pageNumber.Position = UDim2.new(0,0,.8,0)
+pageNumber.TextScaled = true
+pageNumber.Text = 1 .. "/" .. #segments
+
+local page = 1
+frame.FocusLost:Connect(function()
+	page = math.min(page+1, #segments)
+	frame.Text = segments[page]
+	pageNumber.Text = page .. "/" .. #segments
+end)
