@@ -19,5 +19,6 @@ Script: loadstring(game:HttpGet("https://raw.githubusercontent.com/Septureal/fet
 V2.1.0 - Extra Supports 1/3/24
 - Added support for TextAlignment
 - Added page number for string splitter
+- Supports Script and Module Scripts
 
 Script: loadstring(game:HttpGet("https://raw.githubusercontent.com/Septureal/fetcher/refs/heads/main/Version%202.1.0"))()
