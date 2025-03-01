@@ -16,6 +16,8 @@ local importantUi = {
 	["UIStroke"] = {"ApplyStrokeMode","Enabled","Thickness","Transparency","Color"},
 	["UIAspectRatioConstraint"] = {"AspectRatio","AspectType","DominantAxis"},
 	["LocalScript"] = {"Enabled" , "Source"},
+	["Script"] = {"Enabled" , "Source"},
+	["ModuleScript"] = {"Enabled" , "Source"},
 }
 
 local defaults = {}
