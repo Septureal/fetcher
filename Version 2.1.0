@@ -17,7 +17,7 @@ local importantUi = {
 	["UIAspectRatioConstraint"] = {"AspectRatio","AspectType","DominantAxis"},
 	["LocalScript"] = {"Enabled" , "Source"},
 	["Script"] = {"Enabled" , "Source"},
-	["ModuleScript"] = {"Enabled" , "Source"},
+	["ModuleScript"] = {"Source"},
 	["ScrollingFrame"] = {"AnchorPoint", "AutomaticSize", "BackgroundColor3","BackgroundTransparency", "ClipsDescendants", "Interactable","LayoutOrder", "Position", "Rotation", "Size","SizeConstraint","Transparency", "Visible","ZIndex", "AutomaticCanvasSize", "CanvasSize","BottomImage","MidImage","TopImage", "ScrollBarImageColor3" , "ScrollBarImageTransparency","ScrollBarThickness"},
 }
 
